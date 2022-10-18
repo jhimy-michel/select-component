@@ -6,26 +6,48 @@ export type SelectOption = {
   value: string | number;
 };
 
-export type SelectProps = {
-  options: SelectOption[];
+export type MultipleSelectProps = {
+  multiple: true;
+  value: SelectOption[];
+  onChange: (value: SelectOption[]) => void;
+};
+
+export type SingleSelectProps = {
+  multiple?: false;
   value?: SelectOption;
   onChange: (value: SelectOption | undefined) => void;
 };
 
-const Select = ({ value, onChange, options }: SelectProps) => {
+export type SelectProps = {
+  options: SelectOption[];
+} & (SingleSelectProps | MultipleSelectProps);
+
+const Select = ({ multiple, value, onChange, options }: SelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [hightlightedIndex, setHightlightedIndex] = useState(0);
 
   const clearOptions = () => {
-    onChange(undefined);
+    if (multiple) {
+      onChange([]);
+    } else {
+      onChange(undefined);
+    }
   };
 
   const selectOption = (option: SelectOption) => {
-    if (option !== value) onChange(option);
+    if (multiple) {
+      if (value.includes(option)) {
+        onChange(value.filter((o) => o !== option));
+      } else {
+        onChange([...value, option]);
+      }
+    } else {
+      if (option !== value) onChange(option);
+    }
   };
 
   const isOptionSelected = (option: SelectOption) => {
-    return option === value;
+    return multiple ? value.includes(option) : option === value;
   };
 
   useEffect(() => {
@@ -39,7 +61,25 @@ const Select = ({ value, onChange, options }: SelectProps) => {
       tabIndex={0}
       className={styles.container}
     >
-      <span className={styles.value}>{value?.label}</span>
+      <span className={styles.value}>
+        {multiple
+          ? value.map((v) => {
+            return (
+              <button
+                key={v.value}
+                onClick={(e) => {
+                  e.stopPropagation;
+                  selectOption(v);
+                }}
+                className={styles["option-badge"]}
+              >
+                {v.label}
+                <span className={styles["remove-btn"]}>&times;</span>
+              </button>
+            );
+          })
+          : value?.label}
+      </span>
       <button
         onClick={(e) => {
           e.stopPropagation();
@@ -61,9 +101,8 @@ const Select = ({ value, onChange, options }: SelectProps) => {
             }}
             onMouseEnter={() => setHightlightedIndex(index)}
             key={option.value}
-            className={`${styles.option} ${isOptionSelected(option) ? styles.selected : ""} ${
-              index === hightlightedIndex ? styles.highlighted : ""
-            }`}
+            className={`${styles.option} ${isOptionSelected(option) ? styles.selected : ""} ${index === hightlightedIndex ? styles.highlighted : ""
+              }`}
           >
             {" "}
             {option.label}
