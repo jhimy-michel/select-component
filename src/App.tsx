@@ -1,16 +1,18 @@
 import { useState } from "react";
-import Select from "./Select";
+import Select, { SelectOption } from "./Select";
 
-const options = [
-  { label: "first", value: 1 },
-  { label: "second", value: 2 },
-  { label: "third", value: 3 },
-  { label: "fourth", value: 4 },
-  { label: "fifth", value: 5 },
+const options: SelectOption[] = [
+  { label: "First", value: 1 },
+  { label: "Second", value: 2 },
+  { label: "Third", value: 3 },
+  { label: "Fourth", value: 4 },
+  { label: "Fifth", value: 5 },
 ];
 
 function App() {
-  return <Select options={options} />;
+  const [value, setValue] = useState<SelectOption | undefined>(options[0]);
+
+  return <Select options={options} value={value} onChange={(o) => setValue(o)} />;
 }
 
 export default App;
