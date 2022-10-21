@@ -15,8 +15,17 @@ function App() {
 
   return (
     <>
+      <br />
+      <br />
+      <label>Multi select component: </label>
+      <br />
+      <br />
       <Select multiple={true} options={options} value={value1} onChange={(o) => setValue1(o)} />
-      <br></br>
+      <br />
+      <br />
+      <label>Single select component: </label>
+      <br />
+      <br />
       <Select options={options} value={value2} onChange={(o) => setValue2(o)} />
     </>
   );
