@@ -8,8 +8,6 @@ This project was created using Vite + React + TS.
 
 > Note: This project was bootstrapped with [Create Vite App](https://vitejs.dev/guide/)
 
-> This project is based on this tutorial: https://www.youtube.com/watch?v=bAJlYgeovlg&t=1s&ab_channel=WebDevSimplified
-
 ## Single select component
 <img src="./public/singleSelect.gif" alt="singleSelect">
 
@@ -44,3 +42,6 @@ tab| activate the select componet
 space | open list of possible selections
 ⬆️| navigate up
 ⬇️ | navigate down
+
+
+> Disclaimer: This project is based on this tutorial: https://www.youtube.com/watch?v=bAJlYgeovlg&t=1s&ab_channel=WebDevSimplified
